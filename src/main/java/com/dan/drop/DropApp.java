@@ -3,10 +3,15 @@ package com.dan.drop;
 
 
 import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.app.GameScene;
+import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.scene.FXGLScene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -40,6 +45,7 @@ public class DropApp extends GameApplication {
             @Override
             protected void onAction() {
                 player.translateX(5); // move right 5 pixels
+                FXGL.getGameState().increment("pixelsMoved", +5);
             }
         }, KeyCode.D);
 
@@ -47,6 +53,7 @@ public class DropApp extends GameApplication {
             @Override
             protected void onAction() {
                 player.translateX(-5); // move left 5 pixels
+                FXGL.getGameState().increment("pixelsMoved", +5);
             }
         }, KeyCode.A);
 
@@ -54,6 +61,7 @@ public class DropApp extends GameApplication {
             @Override
             protected void onAction() {
                 player.translateY(-5); // move up 5 pixels
+                FXGL.getGameState().increment("pixelsMoved", +5);
             }
         }, KeyCode.W);
 
@@ -61,6 +69,7 @@ public class DropApp extends GameApplication {
             @Override
             protected void onAction() {
                 player.translateY(5); // move down 5 pixels
+                FXGL.getGameState().increment("pixelsMoved", +5);
             }
         }, KeyCode.S);
     }
@@ -69,6 +78,8 @@ public class DropApp extends GameApplication {
         Text textPixels = new Text();
         textPixels.setTranslateX(50); // x = 50
         textPixels.setTranslateY(100); // y = 100
+        FXGL.addUINode(textPixels);
+        textPixels.textProperty().bind(FXGL.getGameState().intProperty("pixelsMoved").asString());
 
     }
     @Override
