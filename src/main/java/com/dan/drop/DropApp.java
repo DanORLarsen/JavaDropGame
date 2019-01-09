@@ -1,17 +1,13 @@
 package com.dan.drop;
 
 
-
 import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameScene;
-import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.core.View;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.GameWorld;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.scene.FXGLScene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,21 +16,20 @@ import javafx.scene.text.Text;
 import java.util.Map;
 
 public class DropApp extends GameApplication {
-    private Entity player;
+
     @Override
     protected void initSettings(com.almasb.fxgl.app.GameSettings gameSettings) {
-        gameSettings.setMenuEnabled(false);
-        gameSettings.setIntroEnabled(false);
         gameSettings.setWidth(600);
         gameSettings.setHeight(600);
         gameSettings.setTitle("Basic Game App");
         gameSettings.setVersion("0.1");
     }
+    private Entity player;
     @Override
     protected void initGame() {
         player = Entities.builder()
                 .at(300, 300)
-                .viewFromNode(new Rectangle(25,25, Color.BLUE))
+                .viewFromNode(new Rectangle(25, 25, Color.BLUEVIOLET))
                 .buildAndAttach(player.getWorld());
     }
     @Override
