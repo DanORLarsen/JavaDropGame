@@ -29,7 +29,7 @@ public class DropApp extends GameApplication {
     protected void initGame() {
         player = Entities.builder()
                 .at(300, 300)
-                .viewFromNode(new Rectangle(25, 25, Color.BLUEVIOLET))
+                .viewFromTexture("red.png")
                 .buildAndAttach(player.getWorld());
     }
     @Override
