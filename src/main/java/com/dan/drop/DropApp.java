@@ -7,6 +7,8 @@ import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.settings.GameSettings;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.util.Map;
@@ -73,7 +75,7 @@ public class DropApp extends GameApplication {
     protected void initGame() {
         player = Entities.builder()
                 .at(300, 300)
-                .viewFromTexture("fxgl_icon.png")
+                .viewFromNode(new Rectangle(25,25, Color.RED))
                 .buildAndAttach(getGameWorld());
     }
 
