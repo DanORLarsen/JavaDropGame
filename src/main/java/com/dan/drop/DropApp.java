@@ -3,11 +3,15 @@ package com.dan.drop;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.entity.Entities;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
 import com.almasb.fxgl.settings.GameSettings;
+import com.almasb.fxgl.texture.Texture;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -70,13 +74,34 @@ public class DropApp extends GameApplication {
     }
 
     private Entity player;
-
+    public enum EntityType {
+        PLAYER, COIN
+    }
     @Override
     protected void initGame() {
         player = Entities.builder()
                 .at(300, 300)
-                .viewFromNode(new Rectangle(25,25, Color.RED))
+                .viewFromNode(new Rectangle(15,15, Color.RED))
                 .buildAndAttach(getGameWorld());
+
+        Entities.builder()
+                .type(EntityType.COIN)
+                .at(500, 200)
+                .viewFromNodeWithBBox(new Circle(15, Color.YELLOW))
+                .with(new CollidableComponent(true))
+                .buildAndAttach(getGameWorld());
+    }
+
+    @Override
+    protected void initPhysics() {
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.PLAYER, EntityType.COIN) {
+
+            // order of types is the same as passed into the constructor
+            @Override
+            protected void onCollisionBegin(Entity player, Entity coin) {
+                coin.removeFromWorld();
+            }
+        });
     }
 
     @Override
@@ -84,6 +109,11 @@ public class DropApp extends GameApplication {
         Text textPixels = new Text();
         textPixels.setTranslateX(50); // x = 50
         textPixels.setTranslateY(100); // y = 100
+        Texture redTexture = getAssetLoader().loadTexture("download.jpg");
+        redTexture.setTranslateX(50);
+        redTexture.setTranslateY(450);
+
+        getGameScene().addUINode(redTexture);
 
         textPixels.textProperty().bind(getGameState().intProperty("pixelsMoved").asString());
 
